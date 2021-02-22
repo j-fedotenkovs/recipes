@@ -11,7 +11,4 @@ public interface IngredientRepository extends CrudRepository<Ingredient, Long> {
 
     @Override
     List<Ingredient> findAll();
-
-//    @Override
-//    void deleteAll(List<Long> ids);
 }

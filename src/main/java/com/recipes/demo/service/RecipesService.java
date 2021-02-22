@@ -11,6 +11,7 @@ import com.recipes.demo.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
@@ -29,11 +30,13 @@ public class RecipesService {
         return recipeMapper.toDtoList(recipeRepository.findAll());
     }
 
+    @Transactional
     public void saveRecipe(RecipeDto recipeDto) {
         Recipe recipe = recipeMapper.toEntity(recipeDto);
         recipeRepository.save(recipe);
     }
 
+    @Transactional
     public void updateRecipe(RecipeDto recipeDto) {
         Recipe recipe = recipeRepository.findById(recipeDto.getId())
                 .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
@@ -49,12 +52,14 @@ public class RecipesService {
         recipeRepository.save(recipe);
     }
 
+    @Transactional
     public void deleteIngredients(List<Long> ids) {
         if (!ids.isEmpty()) {
             ids.forEach(ingredientRepository::deleteById);
         }
     }
 
+    @Transactional
     public void deleteRecipe(long id) {
         recipeRepository.deleteById(id);
     }
